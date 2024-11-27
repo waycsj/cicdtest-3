@@ -57,4 +57,4 @@ jobs:
             docker stop web-app || true
             docker rm web-app || true
             # 새로운 컨테이너 실행
-            docker run -d -p 8080:8080 -- name web-app ${{ secrets.DOCKER_USER }}/web-app:latest
+            docker run -d -p 8080:8080 --name web-app ${{ secrets.DOCKER_USER }}/web-app:latest
