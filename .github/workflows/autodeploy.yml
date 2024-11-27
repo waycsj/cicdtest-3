@@ -8,6 +8,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      MY_DATA_SOURCE: ${{ secrets.DATA_SOURCE }}
+      MY_DATA_USERNAME: ${{ secrets.DATA_USER }}
+      MY_DATA_PASSWORD: ${{ secrets.DATA_PWD }}
 
     steps:  # 저장소에서 코드 가져오기
       - name: source code checkout
@@ -18,6 +22,10 @@ jobs:
         with:
           java-version: 17 #java 버전 설정
           distribution: 'temurin' #java 배포판 설정
+
+#      - name: application.yml 파일 생성하기
+#        run:
+#          echo "${{ secrets.APPLICATION_YML }}" > src/main/resources/application.yml
 
       - name: application build #gradle로 빌드하기
         run: |
@@ -57,4 +65,9 @@ jobs:
             docker stop web-app || true
             docker rm web-app || true
             # 새로운 컨테이너 실행
-            docker run -d -p 8080:8080 --name web-app ${{ secrets.DOCKER_USER }}/web-app:latest
+            docker run -d -p 8080:8080 --name web-app --network=mynet \
+            -e MY_DATA_SOURCE=${{ secrets.DATA_SOURCE }}
+            -e MY_DATA_SOURCE=${{ secrets.DATA_USER }}
+            -e MY_DATA_SOURCE=${{ secrets.DATA_PWD }}
+                        
+            ${{ secrets.DOCKER_USER }}/web-app:latest

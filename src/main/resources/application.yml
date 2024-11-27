@@ -1,0 +1,20 @@
+# spring config
+spring:
+  application:
+    name: cicdtest-3
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mydb:3306/myjpa?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: root
+    password: 1111
+
+  # jpa-hibernate configuration
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+        hbm2ddl:
+          auto: update
